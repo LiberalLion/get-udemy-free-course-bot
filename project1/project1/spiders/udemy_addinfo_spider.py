@@ -40,7 +40,7 @@ class udemyAddInfoSpider(scrapy.Spider):
         item['course_name'] = response.css('h1.clp-lead__title::text').extract_first().strip()
         checkout_url = response.css('a.course-cta--buy::attr(href)').extract_first()
         if (checkout_url is not None):
-            checkout_url = "https://www.udemy.com" + checkout_url
+            checkout_url = f"https://www.udemy.com{checkout_url}"
             item['checkout_url']=checkout_url
 
         #get the ori price and current price, if there is any
@@ -63,14 +63,9 @@ class udemyAddInfoSpider(scrapy.Spider):
                 original_price = ori[1].split("\n")[0].strip()
                 original_price = int(re.findall('\d+', original_price)[0])
                 item['original_price']=original_price
-            #this one means no discount.
-            #NOT NECESSARILY PAID, there are courses that is free dari dulu
             elif ("Price" in tagline):
                 price=price.css('::text').extract()[-1]
-                if ("Free" in price):
-                    price=0
-                else:
-                    price=int(re.findall('\d+', price)[0])
+                price = 0 if ("Free" in price) else int(re.findall('\d+', price)[0])
                 item['discounted_price']=item['original_price']=price
         yield item
 

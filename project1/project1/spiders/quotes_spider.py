@@ -10,7 +10,7 @@ class QuotesSpider(scrapy.Spider):
 
     def parse(self, response):
         page=response.url.split("/")[-1].split("=")[-1]
-        filename ='quotes-%s.txt' % page
+        filename = f'quotes-{page}.txt'
         enc ='utf-8'
         f=open(filename,'a',encoding=enc)
         f.write(response.url)

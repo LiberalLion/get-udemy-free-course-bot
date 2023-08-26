@@ -30,12 +30,10 @@ class UdemyCoursePipeline(object):
                 item_dict=dict(item)
                 for key, value in item_dict.items():
                     setattr(course,key,value)
-                session.add(course)
-                session.commit()
             else:
                 course = Course(**item)
-                session.add(course)
-                session.commit()
+            session.add(course)
+            session.commit()
         except:
             session.rollback()
             raise

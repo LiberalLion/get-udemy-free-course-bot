@@ -22,7 +22,7 @@ class GoViralUdemySpider(scrapy.Spider):
             #get the coursename, udemyurl, add date_last_checked
             #TODO : check date_last_checked on udemy_addinfo
             #we put "" to handle comma (for later if we use .csv as output)
-            item['course_name']='"%s"' % (title)
+            item['course_name'] = f'"{title}"'
             item['udemy_url']=wholeBox.css('div.item-actions a::attr(href)').extract_first().split('\n')[0]
             item['date_last_checked']=date_last_checked
             #send item to pipeline
